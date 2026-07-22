@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/papaparse": "^5.5.2",
     "@types/xlsx": "^0.0.36",
+    "html2canvas": "^1.4.1",
     "papaparse": "^5.5.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

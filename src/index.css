@@ -166,6 +166,17 @@ tfoot th {
 
 /* ---------- Buttons ---------- */
 
+.report-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.report-actions button {
+    margin: 0;
+}
+
 button {
     margin: 1rem;
     padding: .8rem 1.5rem;

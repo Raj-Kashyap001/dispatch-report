@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import html2canvas from "html2canvas";
 import type { MineReportRow } from "../types/report";
 import { toDisplayDate } from "../utils/date";
 
@@ -7,6 +9,8 @@ interface ReportTableProps {
 }
 
 const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const total = data.reduce(
     (acc, row) => ({
       dispatchVehicles: acc.dispatchVehicles + row.dispatchVehicles,
@@ -30,8 +34,33 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
 
   const displayDate = toDisplayDate(selectedDate);
 
+  const handleCopy = async () => {
+    const el = cardRef.current;
+    if (!el) return;
+    const html = el.outerHTML;
+    const blob = new Blob([html], { type: "text/html" });
+    const text = el.innerText;
+    const textBlob = new Blob([text], { type: "text/plain" });
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": blob,
+        "text/plain": textBlob,
+      }),
+    ]);
+  };
+
+  const handleDownload = async () => {
+    const el = cardRef.current;
+    if (!el) return;
+    const canvas = await html2canvas(el, { backgroundColor: "#000", scale: 2 });
+    const link = document.createElement("a");
+    link.download = `dispatch-report-${selectedDate}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
+
   return (
-    <div id="output-card">
+    <div id="output-card" ref={cardRef}>
       <h2>Dispatch Report</h2>
       <h3>PIL (SHIFT B) {displayDate}</h3>
 
@@ -77,6 +106,11 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
           </tr>
         </tfoot>
       </table>
+
+      <div className="report-actions">
+        <button onClick={handleCopy}>Copy</button>
+        <button onClick={handleDownload}>Download</button>
+      </div>
     </div>
   );
 };
