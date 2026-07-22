@@ -17,7 +17,7 @@ const App = () => {
   const [error, setError] = useState("");
   const [reportDate, setReportDate] = useState(today);
   const [selectedAccount, setSelectedAccount] = useState(
-    () => localStorage.getItem("dispatch-selected-account") || "PIL"
+    () => localStorage.getItem("dispatch-selected-account") || "PIL",
   );
   const [accounts, setAccounts] = useState<string[]>(getAccounts);
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,7 +62,7 @@ const App = () => {
 
     if (excelFile && !validateFile(excelFile, "excel")) {
       setError(
-        "Invalid Alerts Report file. Please select a .xlsx or .xls file."
+        "Invalid Alerts Report file. Please select a .xlsx or .xls file.",
       );
       return;
     }
@@ -77,8 +77,8 @@ const App = () => {
         promises.push(
           spawnWorker(
             new URL("./workers/csv.worker.ts", import.meta.url),
-            csvFile
-          )
+            csvFile,
+          ),
         );
       }
 
@@ -86,16 +86,14 @@ const App = () => {
         promises.push(
           spawnWorker(
             new URL("./workers/excel.worker.ts", import.meta.url),
-            excelFile
-          )
+            excelFile,
+          ),
         );
       }
 
       const results = await Promise.all(promises);
 
-      const csvResult = csvFile
-        ? (results[0] as Record<string, string>[])
-        : [];
+      const csvResult = csvFile ? (results[0] as Record<string, string>[]) : [];
       const excelResult = excelFile
         ? (results[csvFile ? 1 : 0] as Record<string, string>[])
         : [];
@@ -114,7 +112,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Create Report</h1>
+      <h1>~ Create Report For ~</h1>
 
       <AccountSelector
         selectedAccount={selectedAccount}
@@ -132,7 +130,15 @@ const App = () => {
 
       <div className="generate-row">
         <button onClick={handleGenerate} disabled={loading}>
-          {loading ? "Generating..." : "Generate Report"}
+          {loading ? (
+            <>
+              <i className="fa-solid fa-spinner fa-spin" /> Generating...
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-bolt" /> Generate Report
+            </>
+          )}
         </button>
       </div>
 

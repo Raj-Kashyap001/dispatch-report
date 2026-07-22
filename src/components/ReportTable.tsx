@@ -111,21 +111,6 @@ const ReportTable = ({ data, selectedDate, accountName }: ReportTableProps) => {
     );
   };
 
-  const CopyIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="9" y="9" width="13" height="13" />
-      <path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1" />
-    </svg>
-  );
-
-  const DownloadIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
-    </svg>
-  );
-
   return (
     <>
       <div id="output-card" ref={cardRef}>
@@ -185,12 +170,12 @@ const ReportTable = ({ data, selectedDate, accountName }: ReportTableProps) => {
 
       <div className="btn-row">
         <button className="icon-btn" onClick={handleCopy}>
-          <CopyIcon />
+          <i className="fa-solid fa-copy" />
           Copy
           <span className="keybind-hint">Ctrl+Shift+C</span>
         </button>
         <button className="icon-btn" onClick={handleDownload}>
-          <DownloadIcon />
+          <i className="fa-solid fa-download" />
           Download
           <span className="keybind-hint">Ctrl+Shift+S</span>
         </button>
