@@ -67,10 +67,6 @@ const InputCard = ({
   return (
     <div id="input-card">
       <div className="field-group inline-field date-shift-row">
-        <div className="date-field">
-          <label>Report For Date</label>
-          <CustomDatePicker value={reportDate} onChange={onDateChange} />
-        </div>
         <div className="shift-field">
           <label>Shift</label>
           <div className="shift-radios">
@@ -87,6 +83,10 @@ const InputCard = ({
               </label>
             ))}
           </div>
+        </div>
+        <div className="date-field">
+          <label>Report For Date</label>
+          <CustomDatePicker value={reportDate} onChange={onDateChange} />
         </div>
       </div>
 
