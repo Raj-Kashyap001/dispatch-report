@@ -7,33 +7,44 @@ interface InputCardProps {
   excelRef: RefObject<HTMLInputElement | null>;
 }
 
-const InputCard = ({ reportDate, onDateChange, csvRef, excelRef }: InputCardProps) => (
+const InputCard = ({
+  reportDate,
+  onDateChange,
+  csvRef,
+  excelRef,
+}: InputCardProps) => (
   <div id="input-card">
-    <div>
+    <div className="field-group">
       <label htmlFor="report-date">Report For Date</label>
-      <br />
       <input
         type="date"
         id="report-date"
+        className="flat-input"
         value={reportDate}
         onChange={(e) => onDateChange(e.target.value)}
       />
     </div>
 
-    <br />
-
-    <div>
-      <label htmlFor="job-report">Select Job Order Report File (CSV)</label>
-      <br />
-      <input type="file" id="job-report" accept=".csv" ref={csvRef} />
+    <div className="field-group">
+      <label htmlFor="job-report">Job Order Report (CSV)</label>
+      <input
+        type="file"
+        id="job-report"
+        accept=".csv"
+        ref={csvRef}
+        className="flat-file"
+      />
     </div>
 
-    <br />
-
-    <div>
-      <label htmlFor="alert-report">Select Alerts Report File (Excel)</label>
-      <br />
-      <input type="file" id="alert-report" accept=".xlsx,.xls" ref={excelRef} />
+    <div className="field-group">
+      <label htmlFor="alert-report">Alerts Report (Excel)</label>
+      <input
+        type="file"
+        id="alert-report"
+        accept=".xlsx,.xls"
+        ref={excelRef}
+        className="flat-file"
+      />
     </div>
   </div>
 );
