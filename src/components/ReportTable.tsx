@@ -10,7 +10,6 @@ interface ReportTableProps {
 
 const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const actionsRef = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState("");
 
   const total = data.reduce(
@@ -44,10 +43,7 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
   const captureCanvas = async () => {
     const el = cardRef.current;
     if (!el) return null;
-    if (actionsRef.current) actionsRef.current.style.visibility = "hidden";
-    const canvas = await html2canvas(el, { backgroundColor: "#000", scale: 2 });
-    if (actionsRef.current) actionsRef.current.style.visibility = "";
-    return canvas;
+    return html2canvas(el, { backgroundColor: "#000", scale: 2 });
   };
 
   const handleCopy = async () => {
@@ -72,60 +68,62 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
   };
 
   return (
-    <div id="output-card" ref={cardRef}>
-      <h2>Dispatch Report</h2>
-      <h3>PIL (SHIFT B) {displayDate}</h3>
+    <>
+      <div id="output-card" ref={cardRef}>
+        <h2>Dispatch Report</h2>
+        <h3>PIL (SHIFT B) {displayDate}</h3>
 
-      <table>
-        <thead>
-          <tr>
-            <th>MINES</th>
-            <th>DISPATCH</th>
-            <th>REACHED IN PLANT {displayDate}</th>
-            <th>BALANCE TO VEHICLE</th>
-            <th>ROUTE DEVIATIONS</th>
-            <th>HALTS IN GREY AREA</th>
-            <th>POWER CUTS</th>
-            <th>OLD VEHICLES</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.mines}</td>
-              <td>{row.dispatchVehicles}</td>
-              <td>{row.reachedInPlant}</td>
-              <td>{row.balanceToVehicle}</td>
-              <td>{row.routeDeviations}</td>
-              <td>{row.haltsInGreyArea}</td>
-              <td>{row.powerCuts}</td>
-              <td>{row.oldVehicle}</td>
+        <table>
+          <thead>
+            <tr>
+              <th>MINES</th>
+              <th>DISPATCH</th>
+              <th>REACHED IN PLANT {displayDate}</th>
+              <th>BALANCE TO VEHICLE</th>
+              <th>ROUTE DEVIATIONS</th>
+              <th>HALTS IN GREY AREA</th>
+              <th>POWER CUTS</th>
+              <th>OLD VEHICLES</th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-        <tfoot>
-          <tr>
-            <th>TOTAL</th>
-            <th>{total.dispatchVehicles}</th>
-            <th>{total.reachedInPlant}</th>
-            <th>{total.balanceToVehicle}</th>
-            <th>{total.routeDeviations}</th>
-            <th>{total.haltsInGreyArea}</th>
-            <th>{total.powerCuts}</th>
-            <th>{total.oldVehicle}</th>
-          </tr>
-        </tfoot>
-      </table>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={index}>
+                <td>{row.mines}</td>
+                <td>{row.dispatchVehicles}</td>
+                <td>{row.reachedInPlant}</td>
+                <td>{row.balanceToVehicle}</td>
+                <td>{row.routeDeviations}</td>
+                <td>{row.haltsInGreyArea}</td>
+                <td>{row.powerCuts}</td>
+                <td>{row.oldVehicle}</td>
+              </tr>
+            ))}
+          </tbody>
 
-      <div className="report-actions" ref={actionsRef}>
+          <tfoot>
+            <tr>
+              <th>TOTAL</th>
+              <th>{total.dispatchVehicles}</th>
+              <th>{total.reachedInPlant}</th>
+              <th>{total.balanceToVehicle}</th>
+              <th>{total.routeDeviations}</th>
+              <th>{total.haltsInGreyArea}</th>
+              <th>{total.powerCuts}</th>
+              <th>{total.oldVehicle}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div className="report-actions">
         <button onClick={handleCopy}>Copy</button>
         <button onClick={handleDownload}>Download</button>
       </div>
 
       {toast && <div className="toast">{toast}</div>}
-    </div>
+    </>
   );
 };
 
