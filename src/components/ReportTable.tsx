@@ -44,9 +44,9 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
   const captureCanvas = async () => {
     const el = cardRef.current;
     if (!el) return null;
-    if (actionsRef.current) actionsRef.current.style.display = "none";
+    if (actionsRef.current) actionsRef.current.style.visibility = "hidden";
     const canvas = await html2canvas(el, { backgroundColor: "#000", scale: 2 });
-    if (actionsRef.current) actionsRef.current.style.display = "";
+    if (actionsRef.current) actionsRef.current.style.visibility = "";
     return canvas;
   };
 

@@ -1,12 +1,11 @@
-/* Google Font (Optional) */
-/* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
 
 :root {
     /* Colors */
     --bg: #f2f2f2;
     --blue: #4f7eb8;
     --green: #b9efb3;
-    --yellow: #ffe600;
+    --yellow: #FFD600;
     --black: #000;
     --white: #fff;
 
@@ -36,7 +35,7 @@
 body {
     margin: 0;
     background: var(--bg);
-    font-family: "Times New Roman", serif;
+    font-family: "Inter", sans-serif;
 }
 
 .App {
@@ -126,6 +125,7 @@ thead th {
 
     padding: clamp(.35rem, .25rem + .3vw, .65rem);
     font-size: var(--fs-head);
+    font-weight: 800;
     text-transform: uppercase;
     text-align: center;
     line-height: 1.25;
