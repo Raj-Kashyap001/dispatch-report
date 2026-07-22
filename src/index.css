@@ -89,7 +89,18 @@ label {
 }
 
 .field-group {
-    margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.field-group.inline-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.field-group.inline-field label {
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 /* ---------- ACCOUNT BAR ---------- */

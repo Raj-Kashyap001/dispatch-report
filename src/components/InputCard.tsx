@@ -24,7 +24,7 @@ const InputCard = ({
 
   return (
     <div id="input-card">
-      <div className="field-group">
+      <div className="field-group inline-field">
         <label>Report For Date</label>
         <CustomDatePicker value={reportDate} onChange={onDateChange} />
       </div>
