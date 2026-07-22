@@ -8,3 +8,13 @@ export interface MineReportRow {
   powerCuts: number;
   oldVehicle: number;
 }
+
+export interface AlertSummary {
+  totalAlerts: number;
+  acknowledged: number;
+}
+
+export interface ReportResult {
+  rows: MineReportRow[];
+  alertSummary: AlertSummary;
+}

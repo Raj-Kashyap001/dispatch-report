@@ -1,4 +1,4 @@
-import type { MineReportRow } from "../types/report";
+import type { AlertSummary, ReportResult } from "../types/report";
 import { toDDMMYYYY } from "./date";
 
 type CSVRow = Record<string, string>;
@@ -47,18 +47,42 @@ const parseExcelAlerts = (
   return result;
 };
 
+const computeAlertSummary = (
+  excelData: CSVRow[],
+  csvDate: string
+): AlertSummary => {
+  if (!excelData.length) return { totalAlerts: 0, acknowledged: 0 };
+
+  const columns = Object.keys(excelData[0]);
+  const dateCol = columns.find((c) => /^Date$/i.test(c));
+  const ackCol = columns.find((c) => /^Acknowledge$/i.test(c));
+
+  const dateRows = excelData.filter((row) => {
+    if (!dateCol) return true;
+    const cellDate = (row[dateCol] ?? "").trim().slice(0, 10);
+    return cellDate === csvDate;
+  });
+
+  const totalAlerts = dateRows.length;
+  const acknowledged = ackCol
+    ? dateRows.filter((row) => (row[ackCol] ?? "").trim().toLowerCase() === "yes").length
+    : 0;
+
+  return { totalAlerts, acknowledged };
+};
+
 export const buildReportData = (
   csvData: CSVRow[],
   excelData: CSVRow[],
   selectedDate: string
-): MineReportRow[] => {
+): ReportResult => {
   const csvDate = toDDMMYYYY(selectedDate);
 
   const mineNames = [
     ...new Set(csvData.map((row) => (row["Trip/Route/Name"] ?? "").trim())),
   ].filter(Boolean);
 
-  return mineNames.map((mines) => {
+  const rows = mineNames.map((mines) => {
     const mineTrips = csvData.filter(
       (row) => (row["Trip/Route/Name"] ?? "").trim() === mines
     );
@@ -99,4 +123,8 @@ export const buildReportData = (
       oldVehicle,
     };
   });
+
+  const alertSummary = computeAlertSummary(excelData, csvDate);
+
+  return { rows, alertSummary };
 };

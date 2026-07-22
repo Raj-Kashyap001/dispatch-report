@@ -846,6 +846,27 @@ tfoot th {
     letter-spacing: 0;
 }
 
+/* ---------- ALERT SUMMARY ---------- */
+
+.alert-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--white);
+  border: 2px solid var(--black);
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.alert-summary i {
+  color: var(--yellow);
+}
+
+.alert-summary strong {
+  font-weight: 800;
+}
+
 /* ---------- FOOTER ---------- */
 
 .footer {

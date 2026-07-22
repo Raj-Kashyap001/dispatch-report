@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import html2canvas from "html2canvas";
-import type { MineReportRow } from "../types/report";
+import type { MineReportRow, AlertSummary } from "../types/report";
 import { toDisplayDate } from "../utils/date";
 
 interface ReportTableProps {
@@ -8,6 +8,7 @@ interface ReportTableProps {
   selectedDate: string;
   accountName: string;
   shift: string;
+  alertSummary: AlertSummary | null;
 }
 
 type NumericField = Omit<MineReportRow, "mines">;
@@ -22,7 +23,7 @@ const NUMERIC_FIELDS: (keyof NumericField)[] = [
   "oldVehicle",
 ];
 
-const ReportTable = ({ data, selectedDate, accountName, shift }: ReportTableProps) => {
+const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: ReportTableProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rows, setRows] = useState<MineReportRow[]>(data);
   const [toast, setToast] = useState("");
@@ -181,6 +182,16 @@ const ReportTable = ({ data, selectedDate, accountName, shift }: ReportTableProp
           <span className="keybind-hint">Ctrl+Shift+S</span>
         </button>
       </div>
+
+      {alertSummary && (
+        <div className="alert-summary">
+          <span>
+            <i className="fa-solid fa-triangle-exclamation" /> Alert Summary:
+          </span>
+          <span>Total Alerts: <strong>{alertSummary.totalAlerts}</strong></span>
+          <span>Acknowledged: <strong>{alertSummary.acknowledged}</strong></span>
+        </div>
+      )}
 
       {toast && <div className="toast">{toast}</div>}
     </>

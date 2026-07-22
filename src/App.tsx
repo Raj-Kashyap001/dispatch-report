@@ -4,7 +4,7 @@ import { validateFile } from "./utils/fileValidation";
 import { spawnWorker } from "./utils/workerSpawn";
 import { buildReportData } from "./utils/parseData";
 import { getAccounts, saveAccounts } from "./utils/accounts";
-import type { MineReportRow } from "./types/report";
+import type { MineReportRow, AlertSummary } from "./types/report";
 import InputCard from "./components/InputCard";
 import ProgressBar from "./components/ProgressBar";
 import DataOutput from "./components/DataOutput";
@@ -13,6 +13,7 @@ import AddAccountModal from "./components/AddAccountModal";
 
 const App = () => {
   const [reportData, setReportData] = useState<MineReportRow[] | null>(null);
+  const [alertSummary, setAlertSummary] = useState<AlertSummary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [reportDate, setReportDate] = useState(today);
@@ -105,7 +106,8 @@ const App = () => {
         : [];
 
       const processed = buildReportData(csvResult, excelResult, reportDate);
-      setReportData(processed);
+      setReportData(processed.rows);
+      setAlertSummary(processed.alertSummary);
     } catch (err) {
       console.error(err);
       setError(err instanceof Error ? err.message : "Error reading files");
@@ -160,6 +162,7 @@ const App = () => {
         selectedDate={reportDate}
         accountName={selectedAccount}
         shift={shift}
+        alertSummary={alertSummary}
       />
 
       <footer className="footer">

@@ -1,4 +1,4 @@
-import type { MineReportRow } from "../types/report";
+import type { MineReportRow, AlertSummary } from "../types/report";
 import ReportTable from "./ReportTable";
 
 interface DataOutputProps {
@@ -6,6 +6,7 @@ interface DataOutputProps {
   selectedDate: string;
   accountName: string;
   shift: string;
+  alertSummary: AlertSummary | null;
 }
 
 const DataOutput = ({
@@ -13,6 +14,7 @@ const DataOutput = ({
   selectedDate,
   accountName,
   shift,
+  alertSummary,
 }: DataOutputProps) => {
   if (!reportData) return null;
   return (
@@ -21,6 +23,7 @@ const DataOutput = ({
       selectedDate={selectedDate}
       accountName={accountName}
       shift={shift}
+      alertSummary={alertSummary}
     />
   );
 };
