@@ -147,24 +147,26 @@ label {
 }
 
 .m3-select-trigger {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.55rem 0.8rem;
-    border: 2px solid #ccc;
-    background: var(--white);
-    color: var(--black);
-    font: inherit;
-    font-size: var(--fs-body);
-    font-weight: 600;
-    cursor: pointer;
-    text-align: left;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  font: inherit;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  justify-content: space-between;
 }
 
-.m3-select-trigger:hover {
-    border-color: var(--blue);
+.m3-select-trigger:hover,
+.m3-select-trigger:active {
+  background: var(--white);
+  border-color: var(--black);
 }
 
 .m3-select-trigger svg {
