@@ -67,7 +67,8 @@ label {
     font-weight: bold;
 }
 
-input[type="file"] {
+input[type="file"],
+input[type="date"] {
     width: 100%;
     padding: .45rem;
 }
@@ -184,6 +185,21 @@ button:hover {
 
 button:active {
     transform: translateY(0);
+}
+
+/* ---------- Progress Bar ---------- */
+
+.progress-bar-fill {
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #81c784, #4caf50);
+    border-radius: 5px;
+    animation: slide 1.4s ease-in-out infinite;
+}
+
+@keyframes slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
 }
 
 /* ---------- Mobile ---------- */
