@@ -124,7 +124,7 @@ const ReportTable = ({ data, selectedDate, accountName }: ReportTableProps) => {
             <tr>
               <th>MINES</th>
               <th>DISPATCH</th>
-              <th>REACHED IN PLANT {displayDate}</th>
+              <th>REACHED IN PLANT<br />{displayDate}</th>
               <th>BALANCE TO VEHICLE</th>
               <th>ROUTE DEVIATIONS</th>
               <th>HALTS IN GREY AREA</th>
