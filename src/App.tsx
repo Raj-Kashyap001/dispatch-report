@@ -114,9 +114,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>
-        Dispatch Report Generator <small>v0.1</small>
-      </h1>
+      <h1>Create Report</h1>
 
       <AccountSelector
         selectedAccount={selectedAccount}

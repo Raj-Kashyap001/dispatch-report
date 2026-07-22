@@ -200,11 +200,11 @@ label {
 }
 
 .m3-select-option:hover {
-  background: #e8f0fe;
+  background: #e0e0e0;
 }
 
 .m3-select-option.selected {
-  background: #e3f0fc;
+  background: #d0d0d0;
   font-weight: 700;
 }
 
@@ -317,7 +317,7 @@ label {
 }
 
 .cal-day:not(.empty):hover {
-  background: #e8f0fe;
+  background: #e0e0e0;
 }
 
 .cal-day.selected {
