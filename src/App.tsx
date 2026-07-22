@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { today } from "./utils/date";
+import { today, getCurrentShift } from "./utils/date";
 import { validateFile } from "./utils/fileValidation";
 import { spawnWorker } from "./utils/workerSpawn";
 import { buildReportData } from "./utils/parseData";
@@ -21,6 +21,7 @@ const App = () => {
   );
   const [accounts, setAccounts] = useState<string[]>(getAccounts);
   const [modalOpen, setModalOpen] = useState(false);
+  const [shift, setShift] = useState(getCurrentShift);
 
   const csvRef = useRef<HTMLInputElement>(null);
   const excelRef = useRef<HTMLInputElement>(null);
@@ -52,6 +53,11 @@ const App = () => {
 
     if (!csvFile && !excelFile) {
       setError("Please select at least one file.");
+      return;
+    }
+
+    if (shift === "C") {
+      setError("Shift C is not implemented yet.");
       return;
     }
 
@@ -126,6 +132,8 @@ const App = () => {
         onDateChange={setReportDate}
         csvRef={csvRef}
         excelRef={excelRef}
+        shift={shift}
+        onShiftChange={setShift}
       />
 
       <div className="generate-row">
@@ -150,6 +158,7 @@ const App = () => {
         reportData={reportData}
         selectedDate={reportDate}
         accountName={selectedAccount}
+        shift={shift}
       />
 
       <footer className="footer">

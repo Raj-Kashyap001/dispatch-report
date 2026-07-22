@@ -103,6 +103,20 @@ label {
   white-space: nowrap;
 }
 
+.shift-hint {
+  font-size: 0.8em;
+  opacity: 0.5;
+  font-weight: 600;
+  align-self: center;
+  white-space: nowrap;
+}
+
+.shift-hint.warn {
+  color: var(--red);
+  opacity: 1;
+  font-weight: 700;
+}
+
 /* ---------- ACCOUNT BAR ---------- */
 
 .account-bar {

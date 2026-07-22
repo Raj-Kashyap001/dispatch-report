@@ -5,12 +5,14 @@ interface DataOutputProps {
   reportData: MineReportRow[] | null;
   selectedDate: string;
   accountName: string;
+  shift: string;
 }
 
 const DataOutput = ({
   reportData,
   selectedDate,
   accountName,
+  shift,
 }: DataOutputProps) => {
   if (!reportData) return null;
   return (
@@ -18,6 +20,7 @@ const DataOutput = ({
       data={reportData}
       selectedDate={selectedDate}
       accountName={accountName}
+      shift={shift}
     />
   );
 };

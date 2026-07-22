@@ -7,6 +7,7 @@ interface ReportTableProps {
   data: MineReportRow[];
   selectedDate: string;
   accountName: string;
+  shift: string;
 }
 
 type NumericField = Omit<MineReportRow, "mines">;
@@ -21,7 +22,7 @@ const NUMERIC_FIELDS: (keyof NumericField)[] = [
   "oldVehicle",
 ];
 
-const ReportTable = ({ data, selectedDate, accountName }: ReportTableProps) => {
+const ReportTable = ({ data, selectedDate, accountName, shift }: ReportTableProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rows, setRows] = useState<MineReportRow[]>(data);
   const [toast, setToast] = useState("");
@@ -116,7 +117,7 @@ const ReportTable = ({ data, selectedDate, accountName }: ReportTableProps) => {
       <div id="output-card" ref={cardRef}>
         <h2>Dispatch Report</h2>
         <h3>
-          {accountName} (SHIFT B) {displayDate}
+          {accountName} (SHIFT {shift}) {displayDate}
         </h3>
 
         <table>

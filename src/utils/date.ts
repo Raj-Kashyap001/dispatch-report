@@ -35,3 +35,10 @@ export function extractDateFromFilename(filename: string): string | null {
   }
   return null;
 }
+
+export function getCurrentShift(): string {
+  const hour = new Date().getHours();
+  if (hour >= 6 && hour < 14) return "A";
+  if (hour >= 14 && hour < 22) return "B";
+  return "C";
+}
