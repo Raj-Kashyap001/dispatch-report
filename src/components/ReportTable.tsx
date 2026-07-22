@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import type { MineReportRow } from "../types/report";
 import { toDisplayDate } from "../utils/date";
@@ -10,6 +10,8 @@ interface ReportTableProps {
 
 const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const [toast, setToast] = useState("");
 
   const total = data.reduce(
     (acc, row) => ({
@@ -34,25 +36,35 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
 
   const displayDate = toDisplayDate(selectedDate);
 
-  const handleCopy = async () => {
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2000);
+  };
+
+  const captureCanvas = async () => {
     const el = cardRef.current;
-    if (!el) return;
-    const html = el.outerHTML;
-    const blob = new Blob([html], { type: "text/html" });
-    const text = el.innerText;
-    const textBlob = new Blob([text], { type: "text/plain" });
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        "text/html": blob,
-        "text/plain": textBlob,
-      }),
-    ]);
+    if (!el) return null;
+    if (actionsRef.current) actionsRef.current.style.display = "none";
+    const canvas = await html2canvas(el, { backgroundColor: "#000", scale: 2 });
+    if (actionsRef.current) actionsRef.current.style.display = "";
+    return canvas;
+  };
+
+  const handleCopy = async () => {
+    const canvas = await captureCanvas();
+    if (!canvas) return;
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": blob }),
+      ]);
+      showToast("Copied to clipboard!");
+    }, "image/png");
   };
 
   const handleDownload = async () => {
-    const el = cardRef.current;
-    if (!el) return;
-    const canvas = await html2canvas(el, { backgroundColor: "#000", scale: 2 });
+    const canvas = await captureCanvas();
+    if (!canvas) return;
     const link = document.createElement("a");
     link.download = `dispatch-report-${selectedDate}.png`;
     link.href = canvas.toDataURL("image/png");
@@ -107,10 +119,12 @@ const ReportTable = ({ data, selectedDate }: ReportTableProps) => {
         </tfoot>
       </table>
 
-      <div className="report-actions">
+      <div className="report-actions" ref={actionsRef}>
         <button onClick={handleCopy}>Copy</button>
         <button onClick={handleDownload}>Download</button>
       </div>
+
+      {toast && <div className="toast">{toast}</div>}
     </div>
   );
 };
