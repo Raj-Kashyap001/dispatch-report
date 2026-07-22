@@ -1,6 +1,5 @@
 import type { RefObject } from "react";
 import CustomDatePicker from "./CustomDatePicker";
-import CustomSelect from "./CustomSelect";
 import { extractDateFromFilename } from "../utils/date";
 
 interface InputCardProps {
@@ -11,12 +10,6 @@ interface InputCardProps {
   shift: string;
   onShiftChange: (shift: string) => void;
 }
-
-const SHIFT_HINTS: Record<string, string> = {
-  A: "06:00 — 14:00",
-  B: "14:00 — 22:00",
-  C: "22:00 — 06:00",
-};
 
 const InputCard = ({
   reportDate,
@@ -35,24 +28,33 @@ const InputCard = ({
 
   return (
     <div id="input-card">
-      <div className="field-group inline-field">
-        <label>Report For Date</label>
-        <CustomDatePicker value={reportDate} onChange={onDateChange} />
+      <div className="field-group inline-field date-shift-row">
+        <div className="date-field">
+          <label>Report For Date</label>
+          <CustomDatePicker value={reportDate} onChange={onDateChange} />
+        </div>
+        <div className="shift-field">
+          <label>Shift</label>
+          <div className="shift-radios">
+            {(["A", "B", "C"] as const).map((s) => (
+              <label key={s} className="shift-radio">
+                <input
+                  type="radio"
+                  name="shift"
+                  value={s}
+                  checked={shift === s}
+                  onChange={() => onShiftChange(s)}
+                />
+                <span>{s}</span>
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="field-group inline-field">
-        <label>Shift</label>
-        <CustomSelect
-          value={shift}
-          options={["A", "B", "C"]}
-          onChange={onShiftChange}
-        />
-        {shift === "C" ? (
-          <span className="shift-hint warn">Not Implemented</span>
-        ) : (
-          <span className="shift-hint">{SHIFT_HINTS[shift]}</span>
-        )}
-      </div>
+      {shift === "C" && (
+        <div className="shift-warning">Shift C is not implemented yet</div>
+      )}
 
       <div className="field-group">
         <label>Job Order Report (CSV)</label>
