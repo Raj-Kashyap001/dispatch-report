@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import { useState, type RefObject } from "react";
 import CustomDatePicker from "./CustomDatePicker";
 import { extractDateFromFilename } from "../utils/date";
 
@@ -19,9 +19,16 @@ const InputCard = ({
   shift,
   onShiftChange,
 }: InputCardProps) => {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [csvName, setCsvName] = useState("");
+  const [excelName, setExcelName] = useState("");
+
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setName: (name: string) => void
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setName(file.name);
     const extracted = extractDateFromFilename(file.name);
     if (extracted) onDateChange(extracted);
   };
@@ -58,24 +65,48 @@ const InputCard = ({
 
       <div className="field-group">
         <label>Job Order Report (CSV)</label>
-        <input
-          type="file"
-          accept=".csv"
-          ref={csvRef}
-          onChange={handleFileChange}
-          className="flat-file"
-        />
+        <div
+          className="file-picker"
+          onClick={() => csvRef.current?.click()}
+        >
+          <i className="fa-solid fa-cloud-arrow-up file-picker-icon" />
+          <span
+            className={`file-picker-name ${!csvName ? "empty" : ""}`}
+          >
+            {csvName || "No file selected"}
+          </span>
+          <span className="file-picker-browse">Browse</span>
+          <input
+            type="file"
+            accept=".csv"
+            ref={csvRef}
+            onChange={(e) => handleFileChange(e, setCsvName)}
+            hidden
+          />
+        </div>
       </div>
 
       <div className="field-group">
         <label>Alerts Report (Excel)</label>
-        <input
-          type="file"
-          accept=".xlsx,.xls"
-          ref={excelRef}
-          onChange={handleFileChange}
-          className="flat-file"
-        />
+        <div
+          className="file-picker"
+          onClick={() => excelRef.current?.click()}
+        >
+          <i className="fa-solid fa-cloud-arrow-up file-picker-icon" />
+          <span
+            className={`file-picker-name ${!excelName ? "empty" : ""}`}
+          >
+            {excelName || "No file selected"}
+          </span>
+          <span className="file-picker-browse">Browse</span>
+          <input
+            type="file"
+            accept=".xlsx,.xls"
+            ref={excelRef}
+            onChange={(e) => handleFileChange(e, setExcelName)}
+            hidden
+          />
+        </div>
       </div>
     </div>
   );

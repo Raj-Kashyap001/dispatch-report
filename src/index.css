@@ -75,17 +75,65 @@ label {
 }
 
 .flat-file {
-    width: 100%;
-    padding: 0.5rem;
-    border: 2px solid #ccc;
-    background: var(--white);
-    font: inherit;
-    font-size: var(--fs-body);
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  background: var(--white);
+  font: inherit;
+  font-size: var(--fs-body);
 }
 
 .flat-file:focus {
-    border-color: var(--blue);
-    outline: none;
+  border-color: var(--blue);
+  outline: none;
+}
+
+/* ---------- FILE PICKER ---------- */
+
+.file-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border: 2px dashed #ccc;
+  background: var(--white);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.file-picker:hover {
+  border-color: var(--blue);
+}
+
+.file-picker-icon {
+  color: var(--blue);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.file-picker-name {
+  flex: 1;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-picker-name.empty {
+  opacity: 0.35;
+  font-weight: 400;
+}
+
+.file-picker-browse {
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .field-group {
