@@ -13,3 +13,25 @@ export const toDDMMYYYY = (dateStr: string): string => {
 };
 
 export const toDisplayDate = (dateStr: string): string => toDDMMYYYY(dateStr);
+
+export function extractDateFromFilename(filename: string): string | null {
+  const ddmmmyyyy = filename.match(/(\d{2})[-._](\d{2})[-._](\d{4})/);
+  if (ddmmmyyyy) {
+    const [, dd, mm, yyyy] = ddmmmyyyy;
+    const m = parseInt(mm, 10);
+    const d = parseInt(dd, 10);
+    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      return `${yyyy}-${mm}-${dd}`;
+    }
+  }
+  const yyyymmdd = filename.match(/(\d{4})[-._](\d{2})[-._](\d{2})/);
+  if (yyyymmdd) {
+    const [, yyyy, mm, dd] = yyyymmdd;
+    const m = parseInt(mm, 10);
+    const d = parseInt(dd, 10);
+    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      return `${yyyy}-${mm}-${dd}`;
+    }
+  }
+  return null;
+}

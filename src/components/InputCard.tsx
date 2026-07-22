@@ -1,4 +1,6 @@
 import type { RefObject } from "react";
+import CustomDatePicker from "./CustomDatePicker";
+import { extractDateFromFilename } from "../utils/date";
 
 interface InputCardProps {
   reportDate: string;
@@ -12,41 +14,44 @@ const InputCard = ({
   onDateChange,
   csvRef,
   excelRef,
-}: InputCardProps) => (
-  <div id="input-card">
-    <div className="field-group">
-      <label htmlFor="report-date">Report For Date</label>
-      <input
-        type="date"
-        id="report-date"
-        className="flat-input"
-        value={reportDate}
-        onChange={(e) => onDateChange(e.target.value)}
-      />
-    </div>
+}: InputCardProps) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const extracted = extractDateFromFilename(file.name);
+    if (extracted) onDateChange(extracted);
+  };
 
-    <div className="field-group">
-      <label htmlFor="job-report">Job Order Report (CSV)</label>
-      <input
-        type="file"
-        id="job-report"
-        accept=".csv"
-        ref={csvRef}
-        className="flat-file"
-      />
-    </div>
+  return (
+    <div id="input-card">
+      <div className="field-group">
+        <label>Report For Date</label>
+        <CustomDatePicker value={reportDate} onChange={onDateChange} />
+      </div>
 
-    <div className="field-group">
-      <label htmlFor="alert-report">Alerts Report (Excel)</label>
-      <input
-        type="file"
-        id="alert-report"
-        accept=".xlsx,.xls"
-        ref={excelRef}
-        className="flat-file"
-      />
+      <div className="field-group">
+        <label>Job Order Report (CSV)</label>
+        <input
+          type="file"
+          accept=".csv"
+          ref={csvRef}
+          onChange={handleFileChange}
+          className="flat-file"
+        />
+      </div>
+
+      <div className="field-group">
+        <label>Alerts Report (Excel)</label>
+        <input
+          type="file"
+          accept=".xlsx,.xls"
+          ref={excelRef}
+          onChange={handleFileChange}
+          className="flat-file"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default InputCard;

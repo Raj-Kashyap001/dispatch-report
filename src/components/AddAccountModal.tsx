@@ -32,38 +32,45 @@ const AddAccountModal = ({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h3>Manage Accounts</h3>
+        <div className="modal-title">Manage Accounts</div>
 
         <div className="modal-list">
           {accounts.map((a) => (
             <div key={a} className="modal-item">
               <span>{a}</span>
-              <button onClick={() => handleRemove(a)}>&times;</button>
+              <button
+                className="modal-delete"
+                onClick={() => handleRemove(a)}
+                title="Remove"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
             </div>
           ))}
           {accounts.length === 0 && (
-            <div className="modal-item" style={{ opacity: 0.5 }}>
-              No accounts
-            </div>
+            <div className="modal-empty">No accounts added yet</div>
           )}
         </div>
 
         <div className="modal-add">
           <input
             type="text"
-            className="flat-input"
-            placeholder="New account name"
+            className="modal-input"
+            placeholder="Enter account name"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           />
-          <button className="flat-btn" onClick={handleAdd}>
+          <button className="modal-add-btn" onClick={handleAdd}>
             Add
           </button>
         </div>
 
-        <button className="flat-btn full-width" onClick={onClose}>
-          Close
+        <button className="modal-close-btn" onClick={onClose}>
+          Done
         </button>
       </div>
     </div>

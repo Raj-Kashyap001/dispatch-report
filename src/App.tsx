@@ -110,6 +110,8 @@ const App = () => {
     }
   };
 
+  const year = new Date().getFullYear();
+
   return (
     <div className="App">
       <h1>
@@ -145,6 +147,10 @@ const App = () => {
         selectedDate={reportDate}
         accountName={selectedAccount}
       />
+
+      <footer className="footer">
+        &copy; {year} Raj Kashyap &middot; Dispatch Report Generator v0.1
+      </footer>
 
       <AddAccountModal
         isOpen={modalOpen}
