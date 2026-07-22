@@ -111,7 +111,6 @@ const InputCard = ({
           <span className={`file-picker-name ${!csvName ? "empty" : ""}`}>
             {csvName || "Drop CSV file here or click to browse"}
           </span>
-          <span className="file-picker-browse">Browse</span>
           <input
             type="file"
             accept=".csv"
@@ -139,7 +138,6 @@ const InputCard = ({
           <span className={`file-picker-name ${!excelName ? "empty" : ""}`}>
             {excelName || "Drop Excel file here or click to browse"}
           </span>
-          <span className="file-picker-browse">Browse</span>
           <input
             type="file"
             accept=".xlsx,.xls"

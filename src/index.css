@@ -127,17 +127,6 @@ label {
   font-weight: 400;
 }
 
-.file-picker-browse {
-  flex-shrink: 0;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--blue);
-  color: var(--blue);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
 .field-group {
   margin-bottom: var(--space-md);
 }
