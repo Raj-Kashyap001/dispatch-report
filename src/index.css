@@ -230,8 +230,10 @@ label {
     justify-content: space-between;
 }
 
-.m3-datepicker-trigger:hover {
-    border-color: var(--blue);
+.m3-datepicker-trigger:hover,
+.m3-datepicker-trigger:active {
+  background: var(--white);
+  border-color: var(--black);
 }
 
 .m3-datepicker-trigger.placeholder {
