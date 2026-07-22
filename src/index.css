@@ -98,11 +98,13 @@ label {
   border: 2px dashed #ccc;
   background: var(--white);
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
-.file-picker:hover {
+.file-picker:hover,
+.file-picker.drag-over {
   border-color: var(--blue);
+  background: #f0f7ff;
 }
 
 .file-picker-icon {

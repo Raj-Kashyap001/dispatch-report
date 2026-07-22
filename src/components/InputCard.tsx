@@ -1,4 +1,4 @@
-import { useState, type RefObject } from "react";
+import { useState, useCallback, type RefObject } from "react";
 import CustomDatePicker from "./CustomDatePicker";
 import { extractDateFromFilename } from "../utils/date";
 
@@ -21,6 +21,8 @@ const InputCard = ({
 }: InputCardProps) => {
   const [csvName, setCsvName] = useState("");
   const [excelName, setExcelName] = useState("");
+  const [csvDrag, setCsvDrag] = useState(false);
+  const [excelDrag, setExcelDrag] = useState(false);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -31,6 +33,35 @@ const InputCard = ({
     setName(file.name);
     const extracted = extractDateFromFilename(file.name);
     if (extracted) onDateChange(extracted);
+  };
+
+  const handleDrop = useCallback(
+    (
+      e: React.DragEvent,
+      ref: RefObject<HTMLInputElement | null>,
+      setName: (name: string) => void,
+      accept: string
+    ) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const ext = file.name.split(".").pop()?.toLowerCase();
+      if (accept.split(",").some((a) => a.trim().replace(".", "") === ext)) {
+        setName(file.name);
+        const extracted = extractDateFromFilename(file.name);
+        if (extracted) onDateChange(extracted);
+        if (ref.current) {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          ref.current.files = dt.files;
+        }
+      }
+    },
+    [onDateChange]
+  );
+
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
   };
 
   return (
@@ -66,14 +97,19 @@ const InputCard = ({
       <div className="field-group">
         <label>Job Order Report (CSV)</label>
         <div
-          className="file-picker"
+          className={`file-picker${csvDrag ? " drag-over" : ""}`}
           onClick={() => csvRef.current?.click()}
+          onDragOver={onDragOver}
+          onDragEnter={() => setCsvDrag(true)}
+          onDragLeave={() => setCsvDrag(false)}
+          onDrop={(e) => {
+            setCsvDrag(false);
+            handleDrop(e, csvRef, setCsvName, ".csv");
+          }}
         >
           <i className="fa-solid fa-cloud-arrow-up file-picker-icon" />
-          <span
-            className={`file-picker-name ${!csvName ? "empty" : ""}`}
-          >
-            {csvName || "No file selected"}
+          <span className={`file-picker-name ${!csvName ? "empty" : ""}`}>
+            {csvName || "Drop CSV file here or click to browse"}
           </span>
           <span className="file-picker-browse">Browse</span>
           <input
@@ -89,14 +125,19 @@ const InputCard = ({
       <div className="field-group">
         <label>Alerts Report (Excel)</label>
         <div
-          className="file-picker"
+          className={`file-picker${excelDrag ? " drag-over" : ""}`}
           onClick={() => excelRef.current?.click()}
+          onDragOver={onDragOver}
+          onDragEnter={() => setExcelDrag(true)}
+          onDragLeave={() => setExcelDrag(false)}
+          onDrop={(e) => {
+            setExcelDrag(false);
+            handleDrop(e, excelRef, setExcelName, ".xlsx,.xls");
+          }}
         >
           <i className="fa-solid fa-cloud-arrow-up file-picker-icon" />
-          <span
-            className={`file-picker-name ${!excelName ? "empty" : ""}`}
-          >
-            {excelName || "No file selected"}
+          <span className={`file-picker-name ${!excelName ? "empty" : ""}`}>
+            {excelName || "Drop Excel file here or click to browse"}
           </span>
           <span className="file-picker-browse">Browse</span>
           <input

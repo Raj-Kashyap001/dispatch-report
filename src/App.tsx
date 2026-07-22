@@ -118,7 +118,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>~ Create Report For ~</h1>
+      <h1> Create Report For </h1>
+      <hr style={{ paddingBottom: 32 }} />
 
       <AccountSelector
         selectedAccount={selectedAccount}
