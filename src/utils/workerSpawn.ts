@@ -1,11 +1,11 @@
 import type { WorkerMessage } from "../types/worker";
 
 export const spawnWorker = (
-  workerUrl: URL,
+  WorkerConstructor: new () => Worker,
   file: File
 ): Promise<unknown> =>
   new Promise((resolve, reject) => {
-    const worker = new Worker(workerUrl, { type: "module" });
+    const worker = new WorkerConstructor();
 
     worker.onmessage = (e: MessageEvent<WorkerMessage>) => {
       if (e.data.type === "done") {

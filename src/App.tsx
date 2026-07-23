@@ -10,6 +10,8 @@ import ProgressBar from "./components/ProgressBar";
 import DataOutput from "./components/DataOutput";
 import AccountSelector from "./components/AccountSelector";
 import AddAccountModal from "./components/AddAccountModal";
+import CsvWorker from "./workers/csv.worker.ts?worker";
+import ExcelWorker from "./workers/excel.worker.ts?worker";
 
 const App = () => {
   const [reportData, setReportData] = useState<MineReportRow[] | null>(null);
@@ -81,21 +83,11 @@ const App = () => {
       const promises: Promise<unknown>[] = [];
 
       if (csvFile) {
-        promises.push(
-          spawnWorker(
-            new URL("./workers/csv.worker.ts", import.meta.url),
-            csvFile,
-          ),
-        );
+        promises.push(spawnWorker(CsvWorker, csvFile));
       }
 
       if (excelFile) {
-        promises.push(
-          spawnWorker(
-            new URL("./workers/excel.worker.ts", import.meta.url),
-            excelFile,
-          ),
-        );
+        promises.push(spawnWorker(ExcelWorker, excelFile));
       }
 
       const results = await Promise.all(promises);
