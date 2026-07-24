@@ -6,7 +6,7 @@ type CSVRow = Record<string, string>;
 const normalizeAlertType = (text: string): string => {
   const lower = text.toLowerCase().trim();
   if (/power\s*cut/.test(lower)) return "powerCut";
-  if (/halt/.test(lower)) return "halt";
+  if (/halt|vehicle_breakdown|tyre_puncture|tyre_puncher/.test(lower)) return "halt";
   if (/route\s*deviat/.test(lower)) return "routeDeviation";
   return "";
 };
