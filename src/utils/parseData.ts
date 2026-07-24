@@ -55,6 +55,7 @@ const computeAlertSummary = (
 
   const columns = Object.keys(excelData[0]);
   const dateCol = columns.find((c) => /^Date$/i.test(c));
+  const alertCol = columns.find((c) => /^Alert$/i.test(c));
   const ackCol = columns.find((c) => /^Acknowledge$/i.test(c));
 
   const dateRows = excelData.filter((row) => {
@@ -63,9 +64,16 @@ const computeAlertSummary = (
     return cellDate === csvDate;
   });
 
-  const totalAlerts = dateRows.length;
+  if (!alertCol) return { totalAlerts: 0, acknowledged: 0 };
+
+  const relevantRows = dateRows.filter((row) => {
+    const type = normalizeAlertType(row[alertCol] ?? "");
+    return type === "powerCut" || type === "halt" || type === "routeDeviation";
+  });
+
+  const totalAlerts = relevantRows.length;
   const acknowledged = ackCol
-    ? dateRows.filter((row) => (row[ackCol] ?? "").trim().toLowerCase() === "yes").length
+    ? relevantRows.filter((row) => (row[ackCol] ?? "").trim().toLowerCase() === "yes").length
     : 0;
 
   return { totalAlerts, acknowledged };
