@@ -25,6 +25,7 @@ const App = () => {
   const [accounts, setAccounts] = useState<string[]>(getAccounts);
   const [modalOpen, setModalOpen] = useState(false);
   const [shift, setShift] = useState(getCurrentShift);
+  const [debug, setDebug] = useState(false);
 
   const csvRef = useRef<HTMLInputElement>(null);
   const excelRef = useRef<HTMLInputElement>(null);
@@ -40,6 +41,17 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("dispatch-selected-account", selectedAccount);
   }, [selectedAccount]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "d") {
+        e.preventDefault();
+        setDebug((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const handleAccountsUpdate = (newAccounts: string[]) => {
     setAccounts(newAccounts);
@@ -98,6 +110,10 @@ const App = () => {
         : [];
 
       const processed = buildReportData(csvResult, excelResult, reportDate);
+      if (debug) {
+        console.log("[DEBUG] CSV rows:", csvResult.length, "Excel rows:", excelResult.length);
+        console.log("[DEBUG] Report:", processed);
+      }
       setReportData(processed.rows);
       setAlertSummary(processed.alertSummary);
     } catch (err) {
@@ -112,6 +128,7 @@ const App = () => {
 
   return (
     <div className="App">
+      {debug && <div className="debug-badge">debug</div>}
       <h1 style={{ textTransform: "uppercase" }}> Create Report For </h1>
       <hr style={{ marginBottom: 32 }} />
 

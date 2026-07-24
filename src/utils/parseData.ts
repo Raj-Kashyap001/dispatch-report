@@ -6,7 +6,7 @@ type CSVRow = Record<string, string>;
 const normalizeAlertType = (text: string): string => {
   const lower = text.toLowerCase().trim();
   if (/power\s*cut/.test(lower)) return "powerCut";
-  if (/halt|vehicle_breakdown|tyre_puncture|tyre_puncher/.test(lower)) return "halt";
+  if (/red\s*area/.test(lower)) return "redArea";
   if (/route\s*deviat/.test(lower)) return "routeDeviation";
   return "";
 };
@@ -15,8 +15,8 @@ const parseExcelAlerts = (
   excelData: CSVRow[],
   mineName: string,
   csvDate: string
-): { powerCuts: number; haltsInGreyArea: number; routeDeviations: number } => {
-  const result = { powerCuts: 0, haltsInGreyArea: 0, routeDeviations: 0 };
+): { powerCuts: number; redArea: number; routeDeviations: number } => {
+  const result = { powerCuts: 0, redArea: 0, routeDeviations: 0 };
   if (!excelData.length) return result;
 
   const columns = Object.keys(excelData[0]);
@@ -40,7 +40,7 @@ const parseExcelAlerts = (
   mineRows.forEach((row) => {
     const type = normalizeAlertType(row[alertCol] ?? "");
     if (type === "powerCut") result.powerCuts++;
-    else if (type === "halt") result.haltsInGreyArea++;
+    else if (type === "redArea") result.redArea++;
     else if (type === "routeDeviation") result.routeDeviations++;
   });
 
@@ -68,7 +68,7 @@ const computeAlertSummary = (
 
   const relevantRows = dateRows.filter((row) => {
     const type = normalizeAlertType(row[alertCol] ?? "");
-    return type === "powerCut" || type === "halt" || type === "routeDeviation";
+    return type === "powerCut" || type === "redArea" || type === "routeDeviation";
   });
 
   const totalAlerts = relevantRows.length;
@@ -126,7 +126,7 @@ export const buildReportData = (
       reachedInPlant,
       balanceToVehicle,
       routeDeviations: excelAlerts.routeDeviations,
-      haltsInGreyArea: excelAlerts.haltsInGreyArea,
+      redArea: excelAlerts.redArea,
       powerCuts: excelAlerts.powerCuts,
       oldVehicle,
     };

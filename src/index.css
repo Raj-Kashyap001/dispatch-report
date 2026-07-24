@@ -836,6 +836,22 @@ tfoot th {
     }
 }
 
+/* ---------- DEBUG BADGE ---------- */
+
+.debug-badge {
+    position: fixed;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: var(--red);
+    color: var(--white);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    z-index: 9999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 /* ---------- KEYBIND HINT ---------- */
 
 .keybind-hint {

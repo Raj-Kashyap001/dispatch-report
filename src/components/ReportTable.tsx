@@ -18,7 +18,7 @@ const NUMERIC_FIELDS: (keyof NumericField)[] = [
   "reachedInPlant",
   "balanceToVehicle",
   "routeDeviations",
-  "haltsInGreyArea",
+  "redArea",
   "powerCuts",
   "oldVehicle",
 ];
@@ -38,7 +38,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
       reachedInPlant: acc.reachedInPlant + row.reachedInPlant,
       balanceToVehicle: acc.balanceToVehicle + row.balanceToVehicle,
       routeDeviations: acc.routeDeviations + row.routeDeviations,
-      haltsInGreyArea: acc.haltsInGreyArea + row.haltsInGreyArea,
+      redArea: acc.redArea + row.redArea,
       powerCuts: acc.powerCuts + row.powerCuts,
       oldVehicle: acc.oldVehicle + row.oldVehicle,
     }),
@@ -47,7 +47,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
       reachedInPlant: 0,
       balanceToVehicle: 0,
       routeDeviations: 0,
-      haltsInGreyArea: 0,
+      redArea: 0,
       powerCuts: 0,
       oldVehicle: 0,
     }
@@ -129,7 +129,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
               <th>REACHED IN PLANT<br />{displayDate}</th>
               <th>BALANCE TO VEHICLE</th>
               <th>ROUTE DEVIATIONS</th>
-              <th>HALTS IN GREY AREA</th>
+              <th>RED AREA</th>
               <th>POWER CUTS</th>
               <th>OLD VEHICLES</th>
             </tr>
@@ -162,7 +162,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
               <th>{total.reachedInPlant}</th>
               <th>{total.balanceToVehicle}</th>
               <th>{total.routeDeviations}</th>
-              <th>{total.haltsInGreyArea}</th>
+              <th>{total.redArea}</th>
               <th>{total.powerCuts}</th>
               <th>{total.oldVehicle}</th>
             </tr>

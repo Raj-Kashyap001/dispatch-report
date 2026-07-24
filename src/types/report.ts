@@ -4,7 +4,7 @@ export interface MineReportRow {
   reachedInPlant: number;
   balanceToVehicle: number;
   routeDeviations: number;
-  haltsInGreyArea: number;
+  redArea: number;
   powerCuts: number;
   oldVehicle: number;
 }
