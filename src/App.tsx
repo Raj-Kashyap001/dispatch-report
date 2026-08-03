@@ -157,22 +157,14 @@ const App = () => {
   };
 
   const handleReset = () => {
-    if (
-      !window.confirm(
-        "Reset all data? This will clear accounts, history and the current report."
-      )
-    )
-      return;
     localStorage.removeItem("dispatch-accounts");
     localStorage.removeItem("dispatch-selected-account");
-    clearHistory();
     setAccounts(getAccounts());
     setSelectedAccount("PIL");
     setReportData(null);
     setAlertSummary(null);
     setReportDate(today);
     setShift(getCurrentShift());
-    setHistory([]);
     setError("");
   };
 
@@ -241,7 +233,7 @@ const App = () => {
       />
 
       <footer className="footer">
-        &copy; {year} Raj Kashyap &middot; Dispatch Report Generator v1.0
+        &copy; {year} Raj Kashyap &middot; Dispatch Report Generator v1.1
       </footer>
 
       <AddAccountModal
