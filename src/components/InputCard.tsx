@@ -91,7 +91,9 @@ const InputCard = ({
       </div>
 
       {shift === "C" && (
-        <div className="shift-warning">Shift C is not implemented yet</div>
+        <div className="shift-warning">
+          C shift covers two days: the selected date and the previous day.
+        </div>
       )}
 
       <div className="field-group">

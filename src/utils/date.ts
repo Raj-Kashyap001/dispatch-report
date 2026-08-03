@@ -42,3 +42,10 @@ export function getCurrentShift(): string {
   if (hour >= 14 && hour < 22) return "B";
   return "C";
 }
+
+export function getPreviousDay(dateStr: string): string {
+  const [yyyy, mm, dd] = dateStr.split("-").map(Number);
+  const d = new Date(yyyy, mm - 1, dd);
+  d.setDate(d.getDate() - 1);
+  return toDateString(d);
+}

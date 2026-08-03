@@ -311,9 +311,45 @@ label {
     right: 0;
     background: var(--white);
     border: 2px solid var(--black);
-    max-height: 260px;
-    overflow-y: auto;
     z-index: 200;
+}
+
+.m3-select-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 2px solid var(--black);
+}
+
+.m3-select-search i {
+    font-size: 0.9rem;
+    color: var(--black);
+}
+
+.m3-select-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--black);
+    font: inherit;
+    font-size: var(--fs-body);
+    font-weight: 500;
+}
+
+.m3-select-options {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.m3-select-empty {
+    padding: 0.6rem 0.8rem;
+    color: var(--black);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    opacity: 0.6;
 }
 
 .m3-select-option {

@@ -12,6 +12,29 @@ const DEFAULT_ACCOUNTS = [
   "Abhishek Roadlines",
   "JPL Dhule",
   "RKM Powergen",
+  "NCL Jaypee Adani",
+  "CCL Jaypee Adani",
+  "Sanvijay Steel",
+  "Hind Logistics",
+  "Shyam Buildcon",
+  "ACC Sulliyari",
+  "Ambuja Bhatapara",
+  "ACC Chanda Maratha",
+  "ACC Sanghi Cement",
+  "ACC Thermal Power",
+  "ACC Ambuja Nagar",
+  "ACC Kymore_Tikariya_Ametha",
+  "ACC Jamul_Lakheri",
+  "ACC Panipat",
+  "Marwar Cement",
+  "Orient Cement",
+  "ACC Rajdhar",
+  "ACC Damodar",
+  "Sanghi clinker",
+  "Modinagar clinker",
+  "Mahan Energen",
+  "Korba Jairamnagar",
+  "JP Paras",
 ];
 
 export function getAccounts(): string[] {
@@ -19,7 +42,13 @@ export function getAccounts(): string[] {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        const merged = [...DEFAULT_ACCOUNTS];
+        parsed.forEach((a) => {
+          if (!merged.includes(a)) merged.push(a);
+        });
+        return merged;
+      }
     }
   } catch {}
   return [...DEFAULT_ACCOUNTS];

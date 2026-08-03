@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import html2canvas from "html2canvas";
 import type { MineReportRow, AlertSummary } from "../types/report";
-import { toDisplayDate } from "../utils/date";
+import { toDisplayDate, getPreviousDay } from "../utils/date";
 
 interface ReportTableProps {
   data: MineReportRow[];
@@ -54,6 +54,8 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
   );
 
   const displayDate = toDisplayDate(selectedDate);
+  const prevDay = shift === "C" ? getPreviousDay(selectedDate).slice(8, 10) : "";
+  const rangeLabel = shift === "C" ? `${prevDay} to ${displayDate}` : displayDate;
 
   const handleCopy = useCallback(async () => {
     const el = cardRef.current;
@@ -118,7 +120,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
       <div id="output-card" ref={cardRef}>
         <h2>Dispatch Report</h2>
         <h3>
-          {accountName} (SHIFT {shift}) {displayDate}
+          {accountName} (SHIFT {shift}) {rangeLabel}
         </h3>
 
         <table>
@@ -126,7 +128,7 @@ const ReportTable = ({ data, selectedDate, accountName, shift, alertSummary }: R
             <tr>
               <th>MINES</th>
               <th>DISPATCH</th>
-              <th>REACHED IN PLANT<br />{displayDate}</th>
+              <th>REACHED IN PLANT<br />{rangeLabel}</th>
               <th>BALANCE TO VEHICLE</th>
               <th>ROUTE DEVIATIONS</th>
               <th>RED AREA</th>

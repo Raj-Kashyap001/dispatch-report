@@ -71,11 +71,6 @@ const App = () => {
       return;
     }
 
-    if (shift === "C") {
-      setError("Shift C is not implemented yet.");
-      return;
-    }
-
     if (csvFile && !validateFile(csvFile, "csv")) {
       setError("Invalid Job Report file. Please select a .csv file.");
       return;
@@ -109,7 +104,7 @@ const App = () => {
         ? (results[csvFile ? 1 : 0] as Record<string, string>[])
         : [];
 
-      const processed = buildReportData(csvResult, excelResult, reportDate);
+      const processed = buildReportData(csvResult, excelResult, reportDate, shift);
       if (debug) {
         console.log("[DEBUG] CSV rows:", csvResult.length, "Excel rows:", excelResult.length);
         console.log("[DEBUG] Report:", processed);

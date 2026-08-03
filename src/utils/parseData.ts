@@ -1,5 +1,5 @@
 import type { AlertSummary, ReportResult } from "../types/report";
-import { toDDMMYYYY } from "./date";
+import { getPreviousDay, toDDMMYYYY } from "./date";
 
 type CSVRow = Record<string, string>;
 
@@ -82,9 +82,12 @@ const computeAlertSummary = (
 export const buildReportData = (
   csvData: CSVRow[],
   excelData: CSVRow[],
-  selectedDate: string
+  selectedDate: string,
+  shift: string
 ): ReportResult => {
   const csvDate = toDDMMYYYY(selectedDate);
+  const prevDate = shift === "C" ? toDDMMYYYY(getPreviousDay(selectedDate)) : csvDate;
+  const inRange = (d: string) => d === csvDate || (shift === "C" && d === prevDate);
 
   const mineNames = [
     ...new Set(csvData.map((row) => (row["Trip/Route/Name"] ?? "").trim())),
@@ -97,7 +100,7 @@ export const buildReportData = (
 
     const dispatchVehicles = mineTrips.filter(
       (row) =>
-        row["Start Date"] === csvDate &&
+        inRange(row["Start Date"]) &&
         (row["TRIP STATUS"] === "IN PROGRESS" ||
           row["TRIP STATUS"] === "COMPLETED")
     ).length;
@@ -105,7 +108,7 @@ export const buildReportData = (
     const reachedInPlant = mineTrips.filter(
       (row) =>
         row["TRIP STATUS"] === "COMPLETED" &&
-        row["Arrival Date At Destination"] === csvDate
+        inRange(row["Arrival Date At Destination"])
     ).length;
 
     const balanceToVehicle = mineTrips.filter(
@@ -114,7 +117,7 @@ export const buildReportData = (
 
     const oldVehicle = mineTrips.filter(
       (row) =>
-        row["Start Date"] !== csvDate &&
+        !inRange(row["Start Date"]) &&
         row["TRIP STATUS"] === "IN PROGRESS"
     ).length;
 
