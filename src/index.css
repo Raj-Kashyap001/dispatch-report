@@ -396,14 +396,11 @@ label {
     font-weight: 600;
     cursor: pointer;
     min-width: 180px;
-    max-width: 180px;
     justify-content: space-between;
     white-space: nowrap;
 }
 
 .m3-datepicker-trigger span {
-    overflow: hidden;
-    text-overflow: ellipsis;
     min-width: 0;
 }
 
