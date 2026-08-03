@@ -86,15 +86,9 @@ const InputCard = ({
         </div>
         <div className="date-field">
           <label>Report For Date</label>
-          <CustomDatePicker value={reportDate} onChange={onDateChange} />
+          <CustomDatePicker value={reportDate} onChange={onDateChange} shift={shift} />
         </div>
       </div>
-
-      {shift === "C" && (
-        <div className="shift-warning">
-          C shift covers two days: the selected date and the previous day.
-        </div>
-      )}
 
       <div className="field-group">
         <label>Job Order Report (CSV)</label>

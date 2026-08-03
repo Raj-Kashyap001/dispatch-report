@@ -143,17 +143,19 @@ label {
 }
 
 .date-shift-row {
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .date-field,
 .shift-field {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .shift-field label {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 .shift-radios {

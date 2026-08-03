@@ -40,6 +40,14 @@ const CustomSelect = ({ value, options, onChange }: CustomSelectProps) => {
     });
   };
 
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && filtered.length > 0) {
+      onChange(filtered[0]);
+      setOpen(false);
+      setQuery("");
+    }
+  };
+
   return (
     <div className="m3-select" ref={ref}>
       <button
@@ -62,6 +70,7 @@ const CustomSelect = ({ value, options, onChange }: CustomSelectProps) => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
               placeholder="Search accounts..."
             />
           </div>

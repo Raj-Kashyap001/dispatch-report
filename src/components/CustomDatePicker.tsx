@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import { getPreviousDay } from "../utils/date";
 
 interface CustomDatePickerProps {
   value: string;
   onChange: (date: string) => void;
+  shift?: string;
 }
 
 const MONTHS = [
@@ -33,7 +35,7 @@ const toValue = (yyyy: number, mm: number, dd: number) => {
   return `${yyyy}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}`;
 };
 
-const CustomDatePicker = ({ value, onChange }: CustomDatePickerProps) => {
+const CustomDatePicker = ({ value, onChange, shift }: CustomDatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [viewYear, setViewYear] = useState(() =>
     value ? parseInt(value.split("-")[0], 10) : new Date().getFullYear()
@@ -72,7 +74,9 @@ const CustomDatePicker = ({ value, onChange }: CustomDatePickerProps) => {
   };
 
   const displayText = selectedParts
-    ? formatDisplay(selectedParts[0], selectedParts[1], selectedParts[2])
+    ? shift === "C"
+      ? `${getPreviousDay(value).slice(8, 10)}-${String(selectedParts[2]).padStart(2, "0")}/${String(selectedParts[1]).padStart(2, "0")}/${selectedParts[0]}`
+      : formatDisplay(selectedParts[0], selectedParts[1], selectedParts[2])
     : "Select date";
 
   const calendarDays: (number | null)[] = [];
