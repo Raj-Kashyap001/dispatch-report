@@ -1091,6 +1091,91 @@ tfoot th {
     letter-spacing: 0.02em;
 }
 
+/* ---------- LOCK SCREEN ---------- */
+
+.lock-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+}
+
+.lock-card {
+    width: min(100%, 400px);
+    background: var(--white);
+    border: 2px solid var(--black);
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+.lock-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-md);
+    background: var(--blue);
+    color: var(--yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.lock-card h1 {
+    font-size: var(--fs-title);
+    margin-bottom: var(--space-sm);
+}
+
+.lock-card p {
+    margin: 0 0 var(--space-md);
+    opacity: 0.6;
+    font-weight: 500;
+    font-size: var(--fs-body);
+}
+
+.lock-input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--black);
+    background: var(--white);
+    font: inherit;
+    font-size: var(--fs-body);
+    margin-bottom: var(--space-sm);
+}
+
+.lock-input:focus {
+    border-color: var(--blue);
+    outline: none;
+}
+
+.lock-error {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: var(--space-sm);
+}
+
+.lock-btn {
+    width: 100%;
+    padding: 0.6rem;
+    border: 2px solid var(--black);
+    background: var(--blue);
+    color: var(--white);
+    font: inherit;
+    font-size: var(--fs-body);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.lock-btn:hover {
+    background: #3d6a9e;
+}
+
+.lock-btn:active {
+    background: var(--black);
+}
+
 /* ---------- MOBILE ---------- */
 
 @media (max-width: 768px) {

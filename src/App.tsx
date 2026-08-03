@@ -17,6 +17,9 @@ import DataOutput from "./components/DataOutput";
 import AccountSelector from "./components/AccountSelector";
 import AddAccountModal from "./components/AddAccountModal";
 import HistoryModal from "./components/HistoryModal";
+import PasswordGate from "./components/PasswordGate";
+
+const APP_PASSWORD = import.meta.env.VITE_APP_PASSWORD as string | undefined;
 import CsvWorker from "./workers/csv.worker.ts?worker";
 import ExcelWorker from "./workers/excel.worker.ts?worker";
 
@@ -35,6 +38,9 @@ const App = () => {
   const [debug, setDebug] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>(getHistory);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [unlocked, setUnlocked] = useState(
+    () => sessionStorage.getItem("dispatch-unlocked") === "1"
+  );
 
   const csvRef = useRef<HTMLInputElement>(null);
   const excelRef = useRef<HTMLInputElement>(null);
@@ -168,7 +174,25 @@ const App = () => {
     setError("");
   };
 
+  const handleUnlock = () => {
+    try {
+      sessionStorage.setItem("dispatch-unlocked", "1");
+    } catch {}
+    setUnlocked(true);
+  };
+
+  const handleLock = () => {
+    try {
+      sessionStorage.removeItem("dispatch-unlocked");
+    } catch {}
+    setUnlocked(false);
+  };
+
   const year = new Date().getFullYear();
+
+  if (APP_PASSWORD && !unlocked) {
+    return <PasswordGate onUnlock={handleUnlock} />;
+  }
 
   return (
     <div className="App">
@@ -195,6 +219,12 @@ const App = () => {
           <i className="fa-solid fa-rotate-right" />
           Reset
         </button>
+        {APP_PASSWORD && (
+          <button className="icon-btn" onClick={handleLock}>
+            <i className="fa-solid fa-lock" />
+            Lock
+          </button>
+        )}
       </div>
 
       <InputCard
