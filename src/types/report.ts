@@ -18,3 +18,13 @@ export interface ReportResult {
   rows: MineReportRow[];
   alertSummary: AlertSummary;
 }
+
+export interface HistoryEntry {
+  id: string;
+  timestamp: number;
+  account: string;
+  date: string;
+  shift: string;
+  rows: MineReportRow[];
+  alertSummary: AlertSummary | null;
+}

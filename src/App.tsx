@@ -4,12 +4,19 @@ import { validateFile } from "./utils/fileValidation";
 import { spawnWorker } from "./utils/workerSpawn";
 import { buildReportData } from "./utils/parseData";
 import { getAccounts, saveAccounts } from "./utils/accounts";
-import type { MineReportRow, AlertSummary } from "./types/report";
+import {
+  getHistory,
+  addHistory,
+  deleteHistoryEntry,
+  clearHistory,
+} from "./utils/history";
+import type { MineReportRow, AlertSummary, HistoryEntry } from "./types/report";
 import InputCard from "./components/InputCard";
 import ProgressBar from "./components/ProgressBar";
 import DataOutput from "./components/DataOutput";
 import AccountSelector from "./components/AccountSelector";
 import AddAccountModal from "./components/AddAccountModal";
+import HistoryModal from "./components/HistoryModal";
 import CsvWorker from "./workers/csv.worker.ts?worker";
 import ExcelWorker from "./workers/excel.worker.ts?worker";
 
@@ -26,6 +33,8 @@ const App = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [shift, setShift] = useState(getCurrentShift);
   const [debug, setDebug] = useState(false);
+  const [history, setHistory] = useState<HistoryEntry[]>(getHistory);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   const csvRef = useRef<HTMLInputElement>(null);
   const excelRef = useRef<HTMLInputElement>(null);
@@ -111,12 +120,60 @@ const App = () => {
       }
       setReportData(processed.rows);
       setAlertSummary(processed.alertSummary);
+      addHistory({
+        account: selectedAccount,
+        date: reportDate,
+        shift,
+        rows: processed.rows,
+        alertSummary: processed.alertSummary,
+      });
+      setHistory(getHistory());
     } catch (err) {
       console.error(err);
       setError(err instanceof Error ? err.message : "Error reading files");
     } finally {
       setTimeout(() => setLoading(false), 600);
     }
+  };
+
+  const handleRestore = (entry: HistoryEntry) => {
+    setSelectedAccount(entry.account);
+    setReportDate(entry.date);
+    setShift(entry.shift);
+    setReportData(entry.rows);
+    setAlertSummary(entry.alertSummary);
+    setError("");
+    setHistoryOpen(false);
+  };
+
+  const handleDeleteHistory = (id: string) => {
+    deleteHistoryEntry(id);
+    setHistory(getHistory());
+  };
+
+  const handleClearHistory = () => {
+    clearHistory();
+    setHistory([]);
+  };
+
+  const handleReset = () => {
+    if (
+      !window.confirm(
+        "Reset all data? This will clear accounts, history and the current report."
+      )
+    )
+      return;
+    localStorage.removeItem("dispatch-accounts");
+    localStorage.removeItem("dispatch-selected-account");
+    clearHistory();
+    setAccounts(getAccounts());
+    setSelectedAccount("PIL");
+    setReportData(null);
+    setAlertSummary(null);
+    setReportDate(today);
+    setShift(getCurrentShift());
+    setHistory([]);
+    setError("");
   };
 
   const year = new Date().getFullYear();
@@ -133,6 +190,20 @@ const App = () => {
         onAccountChange={setSelectedAccount}
         onOpenModal={() => setModalOpen(true)}
       />
+
+      <div className="toolbar-row">
+        <button className="icon-btn" onClick={() => setHistoryOpen(true)}>
+          <i className="fa-solid fa-clock-rotate-left" />
+          History
+          {history.length > 0 && (
+            <span className="toolbar-count">{history.length}</span>
+          )}
+        </button>
+        <button className="icon-btn reset-btn" onClick={handleReset}>
+          <i className="fa-solid fa-rotate-right" />
+          Reset
+        </button>
+      </div>
 
       <InputCard
         reportDate={reportDate}
@@ -178,6 +249,15 @@ const App = () => {
         onClose={() => setModalOpen(false)}
         accounts={accounts}
         onUpdate={handleAccountsUpdate}
+      />
+
+      <HistoryModal
+        isOpen={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        history={history}
+        onRestore={handleRestore}
+        onDelete={handleDeleteHistory}
+        onClearAll={handleClearHistory}
       />
     </div>
   );

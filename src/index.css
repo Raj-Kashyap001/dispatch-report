@@ -273,6 +273,39 @@ label {
     background: #f0f0f0;
 }
 
+/* ---------- TOOLBAR ---------- */
+
+.toolbar-row {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.toolbar-count {
+    margin-left: 0.3rem;
+    background: var(--white);
+    color: var(--black);
+    border-radius: 50%;
+    min-width: 1.3em;
+    height: 1.3em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+    font-weight: 700;
+    padding: 0 0.3em;
+}
+
+.reset-btn {
+    background: var(--red);
+}
+
+.reset-btn:hover {
+    background: #b02626;
+}
+
 /* ---------- M3 SELECT ---------- */
 
 .m3-select {
@@ -860,6 +893,116 @@ tfoot th {
 
 .modal-close-btn:hover {
     background: #f0f0f0;
+}
+
+/* ---------- HISTORY MODAL ---------- */
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--space-sm);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-height: 320px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item:hover {
+    background: #f8f8f8;
+}
+
+.history-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.history-account {
+    font-weight: 700;
+    font-size: var(--fs-body);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-account i {
+    color: var(--blue);
+    margin-right: 0.3rem;
+}
+
+.history-meta {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-meta i {
+    color: var(--blue);
+    margin-right: 0.25rem;
+}
+
+.history-restore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--blue);
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.history-restore:hover {
+    background: #e8f0fa;
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.modal-actions .modal-close-btn {
+    flex: 1;
+}
+
+.modal-danger-btn {
+    flex-shrink: 0;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--red);
+    font: inherit;
+    font-size: var(--fs-body);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.modal-danger-btn:hover:not(:disabled) {
+    background: #fdecea;
+}
+
+.modal-danger-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 /* ---------- TOAST ---------- */
