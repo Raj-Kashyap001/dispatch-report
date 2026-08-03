@@ -170,7 +170,7 @@ const App = () => {
       />
 
       <footer className="footer">
-        &copy; {year} Raj Kashyap &middot; Dispatch Report Generator v0.1
+        &copy; {year} Raj Kashyap &middot; Dispatch Report Generator v1.0
       </footer>
 
       <AddAccountModal
