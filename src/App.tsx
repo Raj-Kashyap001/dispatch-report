@@ -181,13 +181,6 @@ const App = () => {
     setUnlocked(true);
   };
 
-  const handleLock = () => {
-    try {
-      sessionStorage.removeItem("dispatch-unlocked");
-    } catch {}
-    setUnlocked(false);
-  };
-
   const year = new Date().getFullYear();
 
   if (APP_PASSWORD && !unlocked) {
@@ -219,12 +212,6 @@ const App = () => {
           <i className="fa-solid fa-rotate-right" />
           Reset
         </button>
-        {APP_PASSWORD && (
-          <button className="icon-btn" onClick={handleLock}>
-            <i className="fa-solid fa-lock" />
-            Lock
-          </button>
-        )}
       </div>
 
       <InputCard
